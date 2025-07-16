@@ -31,9 +31,6 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const firestoreDb = getFirestore(firebaseApp);
 
-// Express setup
-const app = express();
-
 // Multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
