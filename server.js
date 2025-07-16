@@ -5,6 +5,12 @@ const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
 
+app.use(cors({
+  origin: ["http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:3000", "http://127.0.0.1:3000"], 
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
+}));
+
 //  Firebase imports
 const { initializeApp } = require("firebase/app");
 const { getFirestore, collection, addDoc } = require("firebase/firestore");
