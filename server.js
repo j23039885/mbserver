@@ -9,7 +9,7 @@ const multer = require("multer");
 // 🔐 Load Firebase service account
 const admin = require("firebase-admin");
 
-let rawKey = process.env.FIREBASE_SERVICE_KEY;
+let rawKey = process.env.FIREBASE_SERVICE_ACCOUNT;
 
 
 
