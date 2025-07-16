@@ -1259,16 +1259,27 @@
     }
 
     function getSectionContainer(type) {
-      switch (type.toLowerCase()) {
-        case "noodles": return document.getElementById("noodlesContainer");
-        case "rice": return document.getElementById("riceContainer");
-        case "drinks": return document.getElementById("drinksContainer");
-        case "snacks": return document.getElementById("snacksContainer");
-        case "bread": return document.getElementById("breadContainer");
-        case "addons": return document.getElementById("addOnsContainer");
-        default: return null;
-      }
-    }
+  const normalized = type.trim().toLowerCase();
+
+  // Convert common singulars to expected plural IDs
+  switch (normalized) {
+    case "noodle": return document.getElementById("noodlesContainer");
+    case "rice": return document.getElementById("riceContainer");
+    case "drink": return document.getElementById("drinksContainer");
+    case "snack": return document.getElementById("snacksContainer");
+    case "bread": return document.getElementById("breadContainer");
+    case "addon": return document.getElementById("addOnsContainer");
+
+    // fallback: plural versions
+    case "noodles": return document.getElementById("noodlesContainer");
+    case "drinks": return document.getElementById("drinksContainer");
+    case "snacks": return document.getElementById("snacksContainer");
+    case "addons": return document.getElementById("addOnsContainer");
+    default:
+      return null;
+  }
+}
+
 
     await fetchAndRenderMenu();
   });
