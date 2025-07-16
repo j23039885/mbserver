@@ -220,6 +220,21 @@ app.put("/api/orders/:id/verify", (req, res) => {
   });
 });
 
+app.get("/api/orders/completed", (req, res) => {
+  db.all("SELECT * FROM orders WHERE status = 'completed'", [], (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    const completed = rows.map(row => ({
+      ...row,
+      items: JSON.parse(row.items),
+      paymentProofUrl: row.paymentProof
+        ? `${req.protocol}://${req.get("host")}/uploads/${row.paymentProof}`
+        : null,
+    }));
+    res.json(completed);
+  });
+});
+
+
 // DELETE completed orders
 app.delete("/api/orders/completed", (req, res) => {
   const sql = `DELETE FROM orders WHERE status = 'completed'`;
