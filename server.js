@@ -9,7 +9,12 @@ const multer = require("multer");
 // 🔐 Load Firebase service account
 const admin = require("firebase-admin");
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+let rawKey = process.env.FIREBASE_SERVICE_KEY;
+
+// ✅ Convert escaped \\n back into actual newlines
+rawKey = rawKey.replace(/\\n/g, '\n');
+
+const serviceAccount = JSON.parse(rawKey);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
