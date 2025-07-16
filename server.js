@@ -5,11 +5,12 @@ const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
 
-app.use(cors({
-  origin: ["http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:3000", "http://127.0.0.1:3000"], 
-  methods: "GET,POST,PUT,DELETE",
-  allowedHeaders: "Content-Type,Authorization"
-}));
+// ✅ create app FIRST
+const app = express();
+
+// ✅ then use middlewares
+app.use(cors());
+app.use(express.json());
 
 //  Firebase imports
 const { initializeApp } = require("firebase/app");
