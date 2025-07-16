@@ -46,55 +46,31 @@
 
     let completedOrders = []; // stores fetched completed orders
 
-    // ✅ Fetch completed orders JSON
-    async function fetchCompletedOrders() {
-      const container = document.getElementById("ordersContainer");
-      container.innerHTML = "⏳ Loading completed orders...";
+async function fetchCompletedOrders() {
+  const container = document.getElementById("ordersContainer");
+  container.innerHTML = "⏳ Loading completed orders...";
 
-      try {
-        const res = await fetch(`${API_BASE}/api/orders`);
-        const allOrders = await res.json();
+  try {
+    const res = await fetch(`${API_BASE}/api/orders/completed`);
+    console.log("📡 Fetch response status:", res.status);
+    const allOrders = await res.json();
+    console.log("✅ Raw fetched data:", allOrders);
 
-        // filter only completed
-        completedOrders = allOrders.filter(o => o.status === "completed");
+    completedOrders = allOrders.filter(o => o.status === "completed");
+    console.log("🎯 Filtered completedOrders:", completedOrders);
 
-        if (!completedOrders.length) {
-          container.innerHTML = "<p>✅ No completed orders yet.</p>";
-          return;
-        }
-
-        // build table
-        let html = `<table>
-          <tr>
-            <th>ID</th>
-            <th>Customer</th>
-            <th>Phone</th>
-            <th>Items</th>
-            <th>Total (RM)</th>
-            <th>Timestamp</th>
-          </tr>`;
-
-        completedOrders.forEach(order => {
-          const itemsList = order.items.map(i => `${i.name} x${i.quantity}`).join(", ");
-          const total = order.items.reduce((sum, i) => sum + (i.price * i.quantity), 0).toFixed(2);
-
-          html += `<tr>
-            <td>${order.id}</td>
-            <td>${order.customerName}</td>
-            <td>${order.phoneNumber}</td>
-            <td>${itemsList}</td>
-            <td>${total}</td>
-            <td>${order.timestamp}</td>
-          </tr>`;
-        });
-
-        html += "</table>";
-        container.innerHTML = html;
-      } catch (err) {
-        console.error("❌ Error fetching orders", err);
-        container.innerHTML = `<p style="color:red;">Failed to fetch orders. Check console.</p>`;
-      }
+    if (!completedOrders.length) {
+      container.innerHTML = "<p>✅ No completed orders yet.</p>";
+      return;
     }
+
+    // ... render as table ...
+  } catch (err) {
+    console.error("❌ Error fetching orders", err);
+    container.innerHTML = `<p style="color:red;">Failed to fetch orders. Check console.</p>`;
+  }
+}
+
 
     // ✅ Upload fetched JSON directly to Firestore
     async function uploadToFirestore() {
