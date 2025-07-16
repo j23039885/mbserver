@@ -1217,5 +1217,56 @@
       });
     </script>
     <script type="module" src="script.js"></script>
+
+    <script>
+  const API_BASE_URL = "https://yftest.onrender.com";
+
+  async function fetchAndRenderMenu() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/menu`);
+      if (!response.ok) throw new Error("Failed to fetch menu items");
+      const data = await response.json();
+
+      data.forEach(item => {
+        const container = getSectionContainer(item.category);
+        if (!container) return;
+
+        const itemHtml = `
+          <div class="menu-item">
+            <img class="item-img" src="${item.image}" alt="${item.name}" />
+            <div class="item-info">
+              <div class="item-name">${item.name}</div>
+              <div class="item-price">RM${item.price.toFixed(2)}</div>
+              <div class="quantity-controls">
+                <button class="decrease">-</button>
+                <span class="quantity">0</span>
+                <button class="increase">+</button>
+              </div>
+              <button class="add-to-cart">Add to Cart</button>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML("beforeend", itemHtml);
+      });
+    } catch (err) {
+      console.error("Error loading menu:", err);
+    }
+  }
+
+  function getSectionContainer(category) {
+    switch (category.toLowerCase()) {
+      case "noodles": return document.getElementById("noodlesContainer");
+      case "rice": return document.getElementById("riceContainer");
+      case "drinks": return document.getElementById("drinksContainer");
+      case "snacks": return document.getElementById("snacksContainer");
+      case "bread": return document.getElementById("breadContainer");
+      case "addons": return document.getElementById("addOnsContainer");
+      default: return null;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", fetchAndRenderMenu);
+</script>
+
   </body>
 </html>
