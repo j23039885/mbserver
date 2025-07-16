@@ -8,6 +8,7 @@
     h1 { color: #333; }
     .btn { background: #007BFF; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin: 10px 5px 20px 0; }
     .btn.green { background: green; }
+    pre { background: #fff; padding: 10px; border: 1px solid #ccc; max-height: 300px; overflow: auto; }
     table { width: 100%; border-collapse: collapse; background: white; }
     th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
     th { background: #eee; }
@@ -41,36 +42,67 @@
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
 
-    // ✅ Backend API URL (change to Render URL if hosted online)
+    // ✅ Backend API URL (Render API endpoint)
     const API_BASE = "https://mbserver.onrender.com";
 
     let completedOrders = []; // stores fetched completed orders
 
-async function fetchCompletedOrders() {
-  const container = document.getElementById("ordersContainer");
-  container.innerHTML = "⏳ Loading completed orders...";
+    // ✅ Fetch completed orders JSON
+    async function fetchCompletedOrders() {
+      console.log("🔄 Fetching completed orders from:", `${API_BASE}/api/orders/completed`);
+      const container = document.getElementById("ordersContainer");
+      container.innerHTML = "⏳ Loading completed orders...";
 
-  try {
-    const res = await fetch(`${API_BASE}/api/orders/completed`);
-    console.log("📡 Fetch response status:", res.status);
-    const allOrders = await res.json();
-    console.log("✅ Raw fetched data:", allOrders);
+      try {
+        const res = await fetch(`${API_BASE}/api/orders/completed`);
+        console.log("✅ Response status:", res.status);
 
-    completedOrders = allOrders.filter(o => o.status === "completed");
-    console.log("🎯 Filtered completedOrders:", completedOrders);
+        if (!res.ok) {
+          throw new Error(`HTTP error ${res.status}`);
+        }
 
-    if (!completedOrders.length) {
-      container.innerHTML = "<p>✅ No completed orders yet.</p>";
-      return;
+        const orders = await res.json();
+        console.log("✅ Received data:", orders);
+
+        completedOrders = orders;
+
+        if (!completedOrders.length) {
+          container.innerHTML = "<p>✅ No completed orders yet.</p>";
+          return;
+        }
+
+        // build table
+        let html = `<table>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Items</th>
+            <th>Total (RM)</th>
+            <th>Timestamp</th>
+          </tr>`;
+
+        completedOrders.forEach(order => {
+          const itemsList = order.items.map(i => `${i.name} x${i.quantity}`).join(", ");
+          const total = order.items.reduce((sum, i) => sum + (i.price * i.quantity), 0).toFixed(2);
+
+          html += `<tr>
+            <td>${order.id}</td>
+            <td>${order.customerName}</td>
+            <td>${order.phoneNumber}</td>
+            <td>${itemsList}</td>
+            <td>${total}</td>
+            <td>${order.timestamp}</td>
+          </tr>`;
+        });
+
+        html += "</table>";
+        container.innerHTML = html;
+      } catch (err) {
+        console.error("❌ Error fetching orders:", err);
+        container.innerHTML = `<p style="color:red;">❌ Failed to fetch orders. Check console.</p>`;
+      }
     }
-
-    // ... render as table ...
-  } catch (err) {
-    console.error("❌ Error fetching orders", err);
-    container.innerHTML = `<p style="color:red;">Failed to fetch orders. Check console.</p>`;
-  }
-}
-
 
     // ✅ Upload fetched JSON directly to Firestore
     async function uploadToFirestore() {
@@ -82,6 +114,7 @@ async function fetchCompletedOrders() {
       }
 
       msg.textContent = `⏳ Uploading ${completedOrders.length} orders to Firestore...`;
+      console.log(`⬆ Uploading ${completedOrders.length} orders to Firestore`);
 
       let uploaded = 0;
 
@@ -97,6 +130,10 @@ async function fetchCompletedOrders() {
 
       msg.textContent = `✅ Uploaded ${uploaded}/${completedOrders.length} completed orders to Firestore.`;
     }
+
+    // ✅ Make functions accessible for HTML onclick
+    window.fetchCompletedOrders = fetchCompletedOrders;
+    window.uploadToFirestore = uploadToFirestore;
   </script>
 </body>
 </html>
