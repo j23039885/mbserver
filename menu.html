@@ -322,7 +322,7 @@
         // --------------------  LOAD MENU FROM FIRESTORE --------------------
         async function loadMenu() {
             try {
-                const snap = await getDocs(collection(db, "menuItems"));
+                const snap = await getDocs(collection(db, "menu"));
                 const byType = {};
                 snap.forEach(d => {
                     const item = d.data();
