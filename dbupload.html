@@ -8,7 +8,6 @@
     h1 { color: #333; }
     .btn { background: #007BFF; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin: 10px 5px 20px 0; }
     .btn.green { background: green; }
-    pre { background: #fff; padding: 10px; border: 1px solid #ccc; max-height: 300px; overflow: auto; }
     table { width: 100%; border-collapse: collapse; background: white; }
     th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
     th { background: #eee; }
@@ -19,8 +18,8 @@
   <h1>Completed Orders → Firestore (Frontend Only)</h1>
 
   <!-- Action Buttons -->
-  <button class="btn" onclick="fetchCompletedOrders()">🔄 Fetch Completed Orders</button>
-  <button class="btn green" onclick="uploadToFirestore()">⬆ Upload to Firestore</button>
+  <button id="fetchBtn" class="btn">🔄 Fetch Completed Orders</button>
+  <button id="uploadBtn" class="btn green">⬆ Upload to Firestore</button>
 
   <!-- Orders Table -->
   <div id="ordersContainer">No orders loaded yet.</div>
@@ -42,29 +41,22 @@
     const app = initializeApp(firebaseConfig);
     const firestore = getFirestore(app);
 
-    // ✅ Backend API URL (Render API endpoint)
+    // ✅ Backend API URL
     const API_BASE = "https://mbserver.onrender.com";
 
     let completedOrders = []; // stores fetched completed orders
 
     // ✅ Fetch completed orders JSON
     async function fetchCompletedOrders() {
-      console.log("🔄 Fetching completed orders from:", `${API_BASE}/api/orders/completed`);
       const container = document.getElementById("ordersContainer");
       container.innerHTML = "⏳ Loading completed orders...";
 
       try {
         const res = await fetch(`${API_BASE}/api/orders/completed`);
-        console.log("✅ Response status:", res.status);
+        const data = await res.json();
 
-        if (!res.ok) {
-          throw new Error(`HTTP error ${res.status}`);
-        }
-
-        const orders = await res.json();
-        console.log("✅ Received data:", orders);
-
-        completedOrders = orders;
+        // some APIs might return {orders:[]} so check structure
+        completedOrders = Array.isArray(data) ? data : data.orders || [];
 
         if (!completedOrders.length) {
           container.innerHTML = "<p>✅ No completed orders yet.</p>";
@@ -87,20 +79,20 @@
           const total = order.items.reduce((sum, i) => sum + (i.price * i.quantity), 0).toFixed(2);
 
           html += `<tr>
-            <td>${order.id}</td>
-            <td>${order.customerName}</td>
-            <td>${order.phoneNumber}</td>
+            <td>${order.id || "-"}</td>
+            <td>${order.customerName || "-"}</td>
+            <td>${order.phoneNumber || "-"}</td>
             <td>${itemsList}</td>
             <td>${total}</td>
-            <td>${order.timestamp}</td>
+            <td>${order.timestamp || "-"}</td>
           </tr>`;
         });
 
         html += "</table>";
         container.innerHTML = html;
       } catch (err) {
-        console.error("❌ Error fetching orders:", err);
-        container.innerHTML = `<p style="color:red;">❌ Failed to fetch orders. Check console.</p>`;
+        console.error("❌ Error fetching orders", err);
+        container.innerHTML = `<p style="color:red;">Failed to fetch orders. Check console.</p>`;
       }
     }
 
@@ -114,7 +106,6 @@
       }
 
       msg.textContent = `⏳ Uploading ${completedOrders.length} orders to Firestore...`;
-      console.log(`⬆ Uploading ${completedOrders.length} orders to Firestore`);
 
       let uploaded = 0;
 
@@ -131,9 +122,12 @@
       msg.textContent = `✅ Uploaded ${uploaded}/${completedOrders.length} completed orders to Firestore.`;
     }
 
-    // ✅ Make functions accessible for HTML onclick
-    window.fetchCompletedOrders = fetchCompletedOrders;
-    window.uploadToFirestore = uploadToFirestore;
+    // ✅ Attach event listeners after DOM loads
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("fetchBtn").addEventListener("click", fetchCompletedOrders);
+      document.getElementById("uploadBtn").addEventListener("click", uploadToFirestore);
+      console.log("✅ Buttons ready");
+    });
   </script>
 </body>
 </html>
