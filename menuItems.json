@@ -1,0 +1,367 @@
+[
+  {
+    "name": "Fish Ball Noodles",
+    "price": 11.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Fish Ball Pork Slice",
+    "price": 12.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Fish Ball Pork Belly",
+    "price": 13.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Fish Ball Pork Ball",
+    "price": 13.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Minced Pork Fish Ball",
+    "price": 12.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Pork Noodles",
+    "price": 12.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Pork Slice Pork Ball",
+    "price": 12.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Pork Belly Pork Ball",
+    "price": 13.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Pork Belly",
+    "price": 13.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Fish Paste Noodles",
+    "price": 12.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Fish Fillet",
+    "price": 16.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Seafood Noodles",
+    "price": 16.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Dumplings Noodles",
+    "price": 13.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Vegetable Soup Noodles",
+    "price": 11.9,
+    "type": "Noodles"
+  },
+  {
+    "name": "Tomato Egg Rice",
+    "price": 12.9,
+    "type": "Rice"
+  },
+  {
+    "name": "Pork Minced Rice",
+    "price": 13.9,
+    "type": "Rice"
+  },
+  {
+    "name": "Braised Pork Rice",
+    "price": 14.9,
+    "type": "Rice"
+  },
+  {
+    "name": "Soybean Paste Eggplant Rice",
+    "price": 14.9,
+    "type": "Rice"
+  },
+  {
+    "name": "Eggs",
+    "price": 1.5,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Fish Ball",
+    "price": 2.4,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Dumplings",
+    "price": 2.4,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Pork Ball",
+    "price": 2.4,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Pork Slice",
+    "price": 4,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Pork Belly",
+    "price": 5,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Vegetable",
+    "price": 3,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Enoki",
+    "price": 2.5,
+    "type": "Add Ons"
+  },
+  {
+    "name": "Fish Ball Soup (5pcs)",
+    "price": 6,
+    "type": "Snacks"
+  },
+  {
+    "name": "Wantan (6pcs)",
+    "price": 6,
+    "type": "Snacks"
+  },
+  {
+    "name": "Dumplings (3pcs)",
+    "price": 6,
+    "type": "Snacks"
+  },
+  {
+    "name": "Soybean Paste Eggplant (2pcs)",
+    "price": 6,
+    "type": "Snacks"
+  },
+  {
+    "name": "Fishcake",
+    "price": 6,
+    "type": "Snacks"
+  },
+  {
+    "name": "Seafood Bean Curd Roll",
+    "price": 7,
+    "type": "Snacks"
+  },
+  {
+    "name": "Hakka Fried Pork Belly",
+    "price": 9,
+    "type": "Snacks"
+  },
+  {
+    "name": "Kaya Butter Toast",
+    "price": 3,
+    "type": "Bread & Toast"
+  },
+  {
+    "name": "Giant Bun Kaya Butter",
+    "price": 3.4,
+    "type": "Bread & Toast"
+  },
+  {
+    "name": "Croissant Kaya Butter",
+    "price": 6.8,
+    "type": "Bread & Toast"
+  },
+  {
+    "name": "Half Boiled Eggs",
+    "price": 3.4,
+    "type": "Bread & Toast"
+  },
+  {
+    "name": "Kopi O",
+    "price": 3,
+    "type": "Drinks"
+  },
+  {
+    "name": "Kopi",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Kopi C",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh O",
+    "price": 3,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh C",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Cham O",
+    "price": 3,
+    "type": "Drinks"
+  },
+  {
+    "name": "Cham",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Cham C",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh O Lemon",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Milo",
+    "price": 3.8,
+    "type": "Drinks"
+  },
+  {
+    "name": "Nescafe",
+    "price": 3.8,
+    "type": "Drinks"
+  },
+  {
+    "name": "Neslo",
+    "price": 3.8,
+    "type": "Drinks"
+  },
+  {
+    "name": "Nestum",
+    "price": 3.8,
+    "type": "Drinks"
+  },
+  {
+    "name": "Hor Ka Sai (Milo + Kopi)",
+    "price": 4.6,
+    "type": "Drinks"
+  },
+  {
+    "name": "Lemonade",
+    "price": 3,
+    "type": "Drinks"
+  },
+  {
+    "name": "Kopi O",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Kopi",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Kopi C",
+    "price": 4.6,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh O",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh C",
+    "price": 4.6,
+    "type": "Drinks"
+  },
+  {
+    "name": "Cham O",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Cham",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Cham C",
+    "price": 4.6,
+    "type": "Drinks"
+  },
+  {
+    "name": "Teh O Lemon",
+    "price": 4.6,
+    "type": "Drinks"
+  },
+  {
+    "name": "Milo",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Nescafe",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Neslo",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Nestum",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Hor Ka Sai (Milo + Kopi)",
+    "price": 4.6,
+    "type": "Drinks"
+  },
+  {
+    "name": "Coca Cola",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "100 Plus",
+    "price": 3.4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Mineral Water",
+    "price": 1.5,
+    "type": "Drinks"
+  },
+  {
+    "name": "Lemonade",
+    "price": 4,
+    "type": "Drinks"
+  },
+  {
+    "name": "Three Layer Tea",
+    "price": 5.4,
+    "type": "Drinks"
+  }
+]

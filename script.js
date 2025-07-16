@@ -201,3 +201,153 @@ document.addEventListener("DOMContentLoaded", function () {
     section.style.transform = "translateY(0)";
   });
 });
+
+
+import { db } from "../firebaseconfig.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+// 🧩 Create unified drink item with hot/cold buttons
+function createDrinkItem(item) {
+  const itemDiv = document.createElement("div");
+  itemDiv.className = "menu-item";
+
+  const imgSrc = item.image || "fallback.jpg";
+
+  let hotHTML = "", coldHTML = "";
+
+  if (item.hot?.price) {
+    hotHTML = `
+      <div class="drink-option">
+        <span class="drink-type">Hot</span>
+        <span class="drink-price">RM${item.hot.price.toFixed(2)}</span>
+        <div class="quantity-controls">
+          <button class="decrease">-</button>
+          <span class="quantity">0</span>
+          <button class="increase">+</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (item.cold?.price) {
+    coldHTML = `
+      <div class="drink-option">
+        <span class="drink-type">Cold</span>
+        <span class="drink-price">RM${item.cold.price.toFixed(2)}</span>
+        <div class="quantity-controls">
+          <button class="decrease">-</button>
+          <span class="quantity">0</span>
+          <button class="increase">+</button>
+        </div>
+      </div>
+    `;
+  }
+
+  itemDiv.innerHTML = `
+    <img src="${imgSrc}" alt="${item.name}" class="item-img" style="width: 110px; height: 210px" />
+    <div class="item-info">
+      <div class="item-name">${item.name}</div>
+      <div class="drink-options">
+        ${hotHTML}
+        ${coldHTML}
+      </div>
+      <button class="add-to-cart" disabled>Add to Cart</button>
+    </div>
+  `;
+
+  return itemDiv;
+}
+
+// 🚀 Load drinks_hot and drinks_cold, merge items by name
+async function loadCombinedDrinks() {
+  const container = document.getElementById("drinksContainer");
+  container.innerHTML = "";
+
+  const hotSnapshot = await getDocs(collection(db, "menu/drinks_hot/items"));
+  const coldSnapshot = await getDocs(collection(db, "menu/drinks_cold/items"));
+
+  const drinkMap = new Map();
+
+  // Merge hot drinks
+  hotSnapshot.forEach((doc) => {
+    const data = doc.data();
+    const key = data.name;
+    if (!drinkMap.has(key)) {
+      drinkMap.set(key, { name: data.name, image: data.image });
+    }
+    drinkMap.get(key).hot = { price: data.price };
+  });
+
+  // Merge cold drinks
+  coldSnapshot.forEach((doc) => {
+    const data = doc.data();
+    const key = data.name;
+    if (!drinkMap.has(key)) {
+      drinkMap.set(key, { name: data.name, image: data.image });
+    }
+    drinkMap.get(key).cold = { price: data.price };
+  });
+
+  // Render combined drinks
+  drinkMap.forEach((drink) => {
+    const itemElement = createDrinkItem(drink);
+    container.appendChild(itemElement);
+  });
+}
+
+// 🍜 Generic category loader for other sections
+async function loadMenuCategory(category, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db, `menu/${category}/items`));
+  snapshot.forEach((doc) => {
+    const item = doc.data();
+    const itemElement = createMenuItem(item, category);
+    container.appendChild(itemElement);
+  });
+}
+
+// 📦 Reusable for non-drink items
+function createMenuItem(item, category) {
+  const itemDiv = document.createElement("div");
+  itemDiv.className = "menu-item";
+
+  let imgHTML = "";
+  if (category !== "addOns") {
+    const imgSrc = item.image || `Images/${item.name.replace(/\s+/g, "")}.jpeg`;
+    imgHTML = `<img src="${imgSrc}" alt="${item.name}" class="item-img" style="width: 180px" />`;
+  }
+
+  itemDiv.innerHTML = `
+    ${imgHTML}
+    <div class="item-info">
+      <div class="item-name">${item.name}</div>
+      <div class="item-price">RM${item.price?.toFixed(2) ?? "-"}</div>
+      <div class="cart-controls">
+        <div class="quantity-controls">
+          <button class="decrease">-</button>
+          <span class="quantity">0</span>
+          <button class="increase">+</button>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  `;
+
+  return itemDiv;
+}
+
+// 🔁 Run when page loads
+window.onload = () => {
+  loadMenuCategory("noodles", "noodlesContainer");
+  loadMenuCategory("rice", "riceContainer");
+  loadMenuCategory("soups", "soupsContainer");
+  loadMenuCategory("snacks", "snacksContainer");
+  loadMenuCategory("bread", "breadContainer");
+  loadCombinedDrinks();
+  loadMenuCategory("addOns", "addOnsContainer");
+  loadMenuCategory("noodleTypes", "noodleTypesContainer");
+};
