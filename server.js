@@ -11,8 +11,10 @@ const admin = require("firebase-admin");
 
 let rawKey = process.env.FIREBASE_SERVICE_KEY;
 
-// ✅ Convert escaped \\n back into actual newlines
-rawKey = rawKey.replace(/\\n/g, '\n');
+
+
+// ✅ Convert escaped \\n into real newlines
+rawKey = rawKey.replace(/\\\\n/g, '\n');
 
 const serviceAccount = JSON.parse(rawKey);
 
