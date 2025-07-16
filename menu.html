@@ -1219,56 +1219,61 @@
     <script type="module" src="script.js"></script>
 
     <script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const API_BASE_URL = "https://yftest.onrender.com";
 
-      const API_BASE_URL = "https://yftest.onrender.com";
+    async function fetchAndRenderMenu() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/menu`);
+        const menuItems = await response.json();
+        console.log("✅ Menu items fetched:", menuItems);
 
-  async function fetchAndRenderMenu() {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/menu`);
-      const menuItems = await response.json();
+        menuItems.forEach(item => {
+          console.log(`🔍 Rendering: ${item.name}, type=${item.type}`);
+          const container = getSectionContainer(item.type);
+          if (!container) {
+            console.warn(`⚠️ No container found for type: ${item.type}`);
+            return;
+          }
 
-      menuItems.forEach(item => {
-        const container = getSectionContainer(item.type);
-        if (!container) return;
-
-        const menuItemHTML = `
-          <div class="menu-item">
-            <img class="item-img" src="${item.imageUrl || 'fallback.jpg'}" alt="${item.name}" />
-            <div class="item-info">
-              <div class="item-name">${item.name}</div>
-              <div class="item-price">RM${parseFloat(item.price).toFixed(2)}</div>
-              <div class="quantity-controls">
-                <button class="decrease">-</button>
-                <span class="quantity">0</span>
-                <button class="increase">+</button>
+          const html = `
+            <div class="menu-item">
+              <img class="item-img" src="${item.imageUrl || 'fallback.jpg'}" alt="${item.name}" />
+              <div class="item-info">
+                <div class="item-name">${item.name}</div>
+                <div class="item-price">RM${parseFloat(item.price).toFixed(2)}</div>
+                <div class="quantity-controls">
+                  <button class="decrease">-</button>
+                  <span class="quantity">0</span>
+                  <button class="increase">+</button>
+                </div>
+                <button class="add-to-cart">Add to Cart</button>
               </div>
-              <button class="add-to-cart">Add to Cart</button>
             </div>
-          </div>
-        `;
-
-        container.insertAdjacentHTML("beforeend", menuItemHTML);
-      });
-    } catch (error) {
-      console.error("Error fetching menu items:", error);
+          `;
+          container.insertAdjacentHTML("beforeend", html);
+        });
+      } catch (error) {
+        console.error("❌ Error fetching menu items:", error);
+      }
     }
-  }
 
-  function getSectionContainer(type) {
-    switch (type.toLowerCase()) {
-      case "noodles": return document.getElementById("noodlesContainer");
-      case "rice": return document.getElementById("riceContainer");
-      case "drinks": return document.getElementById("drinksContainer");
-      case "snacks": return document.getElementById("snacksContainer");
-      case "bread": return document.getElementById("breadContainer");
-      case "addons": return document.getElementById("addOnsContainer");
-      default: return null;
+    function getSectionContainer(type) {
+      switch (type.toLowerCase()) {
+        case "noodles": return document.getElementById("noodlesContainer");
+        case "rice": return document.getElementById("riceContainer");
+        case "drinks": return document.getElementById("drinksContainer");
+        case "snacks": return document.getElementById("snacksContainer");
+        case "bread": return document.getElementById("breadContainer");
+        case "addons": return document.getElementById("addOnsContainer");
+        default: return null;
+      }
     }
-  }
 
-  // Ensure fetch happens on page load
-  document.addEventListener("DOMContentLoaded", fetchAndRenderMenu);
+    await fetchAndRenderMenu();
+  });
 </script>
+
 
   </body>
 </html>
