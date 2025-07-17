@@ -306,7 +306,6 @@ app.get("/api/menu", (req, res) => {
       imageUrl: row.imagePath
   ? `https://yftest.onrender.com/uploads/${row.imagePath}`
   : null,
-
     }));
 
     res.json(menuItems);
