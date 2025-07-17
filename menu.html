@@ -1248,20 +1248,20 @@
           }
 
           const html = `
-            <div class="${itemClass}">
-              <img class="item-img" src="${item.imageUrl || 'fallback.jpg'}" alt="${item.name}" />
-              <div class="item-info">
-                <div class="item-name">${item.name}</div>
-                <div class="item-price">RM${parseFloat(item.price).toFixed(2)}</div>
-                <div class="quantity-controls">
-                  <button class="decrease" ${disabledAttr}>-</button>
-                  <span class="quantity">0</span>
-                  <button class="increase" ${disabledAttr}>+</button>
-                </div>
-                <button class="add-to-cart" ${disabledAttr}>Add to Cart</button>
-                ${availabilityText}
-              </div>
-            </div>
+      <div class="${itemClass}">
+        <img class="item-img" src="${item.imageUrl || 'fallback.jpg'}" alt="${item.name}" />
+        <div class="item-info">
+          <div class="item-name">${item.name}</div>
+          <div class="item-price">RM${parseFloat(item.price).toFixed(2)}</div>
+          <div class="quantity-controls">
+            <button class="decrease" ${disabledAttr}>-</button>
+            <span class="quantity">0</span>
+            <button class="increase" ${disabledAttr}>+</button>
+          </div>
+          <button class="add-to-cart" ${disabledAttr}>Add to Cart</button>
+          ${availabilityText}
+        </div>
+      </div>
           `;
           container.insertAdjacentHTML("beforeend", html);
         });
